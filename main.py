@@ -1,11 +1,10 @@
+import logging
 from fastapi import FastAPI
 from mangum import Mangum
+import colorlog
 
 from controllers.product_controller import ProductController 
 from core.global_container import GlobalContainer
-
-import colorlog
-from controllers.product_controller import ProductController
 
 handler = colorlog.StreamHandler()
 handler.setFormatter(colorlog.ColoredFormatter(
@@ -19,7 +18,6 @@ handler.setFormatter(colorlog.ColoredFormatter(
     }
 ))
 
-import logging
 logging.basicConfig(level=logging.INFO, handlers=[handler])
 
 app = FastAPI()
