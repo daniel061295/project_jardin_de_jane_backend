@@ -1,0 +1,23 @@
+from clients.dynamo_db_client import DynamoDBClient
+from config.config import Config
+from core.global_container import GlobalContainer
+from models.product_model import ProductModel
+from repositories.product_repository import ProductRepository
+from services.product_service import ProductService
+
+# Registrar dependencias
+container = GlobalContainer.get_container()
+container.add_singleton(Config, lambda: Config())
+container.add_transient(
+    ProductRepository,
+    lambda: ProductRepository(
+        client=DynamoDBClient(
+            table_name=container._get_service(Config).PRODUCTS_TABLE,
+            config=container._get_service(Config),
+            model=ProductModel
+        ),
+        config=container._get_service(Config)
+    )
+)
+container.add_transient(ProductService)
+
