@@ -21,7 +21,7 @@ jobs:
       - name: Install dependencies
         run: |
           pip install -r requirements.txt -t package/
-          cp -r main.py controllers services models package/
+          cp -r main.py controllers core registres repositories config clients models services models package/
           cd package && zip -r ../function.zip .
 
 
