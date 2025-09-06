@@ -16,16 +16,24 @@ class ProductController(BaseController):
         self.router.add_api_route("/", self.list_items, methods=["GET"])
         self.router.add_api_route("/", self.create_item, methods=["POST"])
         self.router.add_api_route("/{id}", self.update_item, methods=["PUT"])
+        self.router.add_api_route("/{id}", self.get_item, methods=["GET"])
         self.router.add_api_route("/{id}", self.delete_item, methods=["DELETE"])
 
-    async def list_items(self, id: Optional[str] = None):
+    async def list_items(self):
         try:
             service: ProductService = self.container.get_service(ProductService)
-            if id:
-                item = await service.get_product(id)
-                return {"items": [item]} if item else {"items": []}
             items = await service.list_products()
             return {"items": items}
+        except Exception as e:
+            raise HTTPException(status_code=500, detail=str(e))
+        
+    async def get_item(self, id: str):
+        service: ProductService = self.container.get_service(ProductService)
+        try:
+            item = await service.get_product(id)
+            if not item:
+                raise HTTPException(status_code=404, detail="Product not found")
+            return {"item": item}
         except Exception as e:
             raise HTTPException(status_code=500, detail=str(e))
 

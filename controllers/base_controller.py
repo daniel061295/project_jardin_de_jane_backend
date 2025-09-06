@@ -20,7 +20,7 @@ class BaseController(ABC):
         # Si es ruta raíz ("" o "/") → registrar las dos variantes
         if path in ("", "/"):
             clean_path = ""
-            self.router.add_api_route(clean_path, endpoint, methods=methods)
+            self.router.add_api_route(clean_path, endpoint, methods=methods, include_in_schema=False)
             self.router.add_api_route("/", endpoint, methods=methods)
         else:
             # Para rutas con parámetros u otras, solo una vez
