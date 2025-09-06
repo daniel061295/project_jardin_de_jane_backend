@@ -3,13 +3,14 @@ from fastapi import status
 from typing import Optional
 
 from controllers.base_controller import BaseController
+from core.dependency_injector import DependencyContainer
 from core.global_container import GlobalContainer
 from models.product_model import ProductModel
 from services.product_service import ProductService
 
 
 class ProductController(BaseController):
-    def __init__(self, container: GlobalContainer):
+    def __init__(self, container: DependencyContainer):
         super().__init__(container)
     
         self.router.prefix = "/products"

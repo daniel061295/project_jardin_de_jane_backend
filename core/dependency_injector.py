@@ -44,7 +44,7 @@ class DependencyContainer:
 
         self._services[service_type].append(ServiceRegistration(factory=implementation_factory, lifetime=lifetime))
 
-    def _get_service(self, service_type: Type, scope: Optional[Dict[Type, Any]] = None) -> Any:
+    def get_service(self, service_type: Type, scope: Optional[Dict[Type, Any]] = None) -> Any:
         """Obtiene una instancia de un servicio del contenedor de dependencias."""
         services = self._services.get(service_type, [])
         if not services or len(services) == 0:
@@ -88,7 +88,7 @@ class DependencyContainer:
             origin = typing.get_origin(p.annotation)
             if origin is list:
                 item_type = typing.get_args(p.annotation)[0]
-                dependency = self._get_service(item_type)
+                dependency = self.get_service(item_type)
                 
                 if not isinstance(dependency, list):
                     dependency = [dependency]
@@ -96,7 +96,7 @@ class DependencyContainer:
                 args.append(dependency)
             
             else:
-                dependency = self._get_service(p.annotation)
+                dependency = self.get_service(p.annotation)
                 args.append(dependency)
 
         return cls(*args)

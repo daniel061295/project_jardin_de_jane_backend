@@ -12,11 +12,11 @@ container.add_transient(
     ProductRepository,
     lambda: ProductRepository(
         client=DynamoDBClient(
-            table_name=container._get_service(Config).PRODUCTS_TABLE,
-            config=container._get_service(Config),
+            table_name=container.get_service(Config).PRODUCTS_TABLE,
+            config=container.get_service(Config),
             model=ProductModel
         ),
-        config=container._get_service(Config)
+        config=container.get_service(Config)
     )
 )
 container.add_transient(ProductService)

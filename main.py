@@ -5,6 +5,7 @@ import colorlog
 
 from controllers.product_controller import ProductController 
 from core.global_container import GlobalContainer
+from registres import dependency_registry  # Asegura que las dependencias estén registradas
 
 handler = colorlog.StreamHandler()
 handler.setFormatter(colorlog.ColoredFormatter(
