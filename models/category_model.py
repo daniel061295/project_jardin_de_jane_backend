@@ -1,14 +1,15 @@
-from typing import Optional
+from typing import List, Optional
 from uuid import UUID, uuid4
 from pydantic import BaseModel, Field
 
-class ProductModel(BaseModel):
+from models.subcategory_model import SubcategoryModel
+
+class CategoryModel(BaseModel):
     id: Optional[UUID] = Field(default_factory=uuid4)
     name: str
-    price: int
-    image: str
-    category: str
-    subCategory: str
+    icon: str
+    description: str
+    subcategories: List[SubcategoryModel] = []
 
     model_config = {
         "json_encoders": {

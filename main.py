@@ -3,6 +3,7 @@ from fastapi import FastAPI
 from mangum import Mangum
 import colorlog
 
+from controllers.category_controller import CategoryController
 from controllers.product_controller import ProductController 
 from core.global_container import GlobalContainer
 from registres import dependency_registry  # Asegura que las dependencias estén registradas
@@ -24,5 +25,8 @@ logging.basicConfig(level=logging.INFO, handlers=[handler])
 app = FastAPI()
 handler = Mangum(app)
 
-product_controller = ProductController(container=GlobalContainer.get_container())   
+product_controller = ProductController(container=GlobalContainer.get_container())
+category_controller = CategoryController(container=GlobalContainer.get_container())
+  
 app.include_router(product_controller.get_router())
+app.include_router(category_controller.get_router())
