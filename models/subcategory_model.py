@@ -1,15 +1,5 @@
-from typing import Optional
-from uuid import UUID, uuid4
+from models.base_dynamo_model import BaseDynamoModel
 
-from pydantic import BaseModel, Field
-
-class SubcategoryModel(BaseModel):
-    id: Optional[UUID] = Field(default_factory=uuid4)
+class SubcategoryModel(BaseDynamoModel):
     name: str
     description: str
-    
-    model_config = {
-        "json_encoders": {
-            UUID: lambda v: str(v)
-        }
-    }
