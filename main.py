@@ -2,7 +2,7 @@ import logging
 from fastapi import FastAPI
 from mangum import Mangum
 import colorlog
-
+from fastapi.middleware.cors import CORSMiddleware
 from controllers.category_controller import CategoryController
 from controllers.product_controller import ProductController 
 from core.global_container import GlobalContainer
@@ -23,6 +23,14 @@ handler.setFormatter(colorlog.ColoredFormatter(
 logging.basicConfig(level=logging.INFO, handlers=[handler])
 
 app = FastAPI()
+# ⚠️ Acepta cualquier origen (para pruebas o desarrollo)
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["*"],  # todos los orígenes
+    allow_credentials=True,
+    allow_methods=["*"],  # todos los métodos
+    allow_headers=["*"],  # todas las cabeceras
+)
 handler = Mangum(app)
 
 product_controller = ProductController(container=GlobalContainer.get_container())
